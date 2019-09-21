@@ -1,5 +1,4 @@
 import { Text, View } from "react-native";
-import { Button } from "react-native-elements";
 import React from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
