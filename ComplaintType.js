@@ -1,6 +1,7 @@
-import { Text, View } from "react-native";
+import { Text, View, Image, StyleSheet, TouchableHighlight } from "react-native";
 import { Button } from "react-native-elements";
-import React from "react";
+import Img from "react-image";
+import React, { Component } from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import moment from "moment";
@@ -9,12 +10,60 @@ import moment from "moment";
 export default class ComplaintType extends React.Component {
   
   render() {
-    const complaints = ["crossing", "curb", "sidewalk conditions", "sidewalk obstructions", "tree pit"]
+    // const complaints = ["crossing", "curb", "sidewalk conditions", "sidewalk obstructions", "tree pit"]
+
+    const complaintTypes = {
+      crossing: {
+        name: 'Crossing', 
+        uri: require('./assets/crossing.png')
+      },
+      curb: {
+        name: 'Curb',
+        uri: require('./assets/curb.png')
+      },
+      sidewalkConditions: {
+        name: 'Sidewalk Conditions', 
+        uri: require('./assets/sidewalk-conditions.png')
+      },
+      sidewalkObstructions: {
+        name: 'Sidewalk Obstructions', 
+        uri: require('./assets/sidewalk-obstructions.png')
+      },
+      treePit: {
+        name: 'Tree Pit',
+        uri: require('./assets/tree-pit.png')
+      }
+    }
 
     return (
       <View>
-        {complaints.map(complaint => (<Button title={complaint}/>))}
+        {Object.keys(complaintTypes).map(key => (
+          <View key={complaintTypes[key].name} style={styles.container}>
+            <TouchableHighlight 
+              onPress={() => {
+                alert('Complaint selected: ' + complaintTypes[key].name);
+              }}>
+              <View>
+                <Image 
+                style={{width: 250, height: 100}} 
+                source={complaintTypes[key].uri} />
+                <Text
+                  style={{marginTop: 4}}>
+                  {complaintTypes[key].name}
+                </Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+        ))}
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#fbfbfb',
+    marginTop: 8,
+    padding: 8
+  },
+}); 
