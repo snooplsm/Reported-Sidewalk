@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, View, Image, TouchableHighlight } from "react-native";
 import React from "react";
 import { Button } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
@@ -92,14 +92,57 @@ export default class PickImage extends React.Component {
   };
 
   render() {
+    const reportImageSource = require('./assets/report.png')
     return (
-      <View>
-        <Text>Report Sidewalk Obstructions</Text>
-        <Text>1. Add Photo</Text>
-        <Button
-          onPress={this._pickImage}
-          title={"Submit Sidewalk Obstruction"}
-        />
+      <View style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'top',
+        backgroundColor: '#fdfdfd'
+      }}>
+        <Image
+          style={{
+            marginTop: 24,
+            height: 128,
+            width: 128
+          }}
+          source={reportImageSource} />
+        <Text style={{
+          fontSize: 24,
+          marginBottom: 48,
+          marginTop: 24,
+          marginRight: 24,
+          marginLeft: 24,
+          fontWeight: 'bold',
+          textAlign: 'center'
+        }}>Report Sidewalk Obstructions</Text>
+        <View style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <Text style={{
+            fontSize: 16,
+            marginBottom: 16
+          }}>Step 1: Add Photo</Text>
+          <TouchableHighlight
+            style={{
+              paddingRight:40,
+              paddingLeft:40,
+              marginTop:10,
+              paddingTop:20,
+              paddingBottom:20,
+              backgroundColor:'#ff2222',
+              borderRadius:30,
+              borderWidth: 1,
+              borderColor: '#fff'
+            }}
+            onPress={this._pickImage}
+            underlayColor='#fff'>
+            <Text style={{fontWeight:800, color:'#fff',textAlign:'center'}}>Submit Sidewalk Obstruction</Text>
+          </TouchableHighlight>
+        </View>
+        
       </View>
     );
   }
