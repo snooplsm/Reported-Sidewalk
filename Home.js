@@ -3,8 +3,14 @@ import { Button } from "react-native-elements";
 import React from "react";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
+import moment from "moment";
 
 export default class Home extends React.Component {
+  constructor(params) {
+    super(params);
+    this.state = {};
+  }
+
   _pickImage = async () => {
     const permission = await Permissions.getAsync(Permissions.CAMERA_ROLL);
     // const permission2 = await Permissions.getAsync(
