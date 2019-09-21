@@ -3,51 +3,42 @@ import { Button } from "react-native-elements";
 import React from "react";
 import { Col, Row, Grid } from "react-native-easy-grid";
 
-
-
 export default class CompassSelect extends React.Component {
-  
+  _next = () => {
+    this.props.navigation.navigate("ConfirmSubmission");
+  };
+
   render() {
-    const styles = StyleSheet.create(
-      {
-        Main: {
-          flex: 1
-        },
-        middle: {
-          flexDirection: 'row'
-        },
-        North:{
-          marginVertical: 0,
-          marginHorizontal: 20
-        },
-        East: {
-          position: 'absolute',
-          left: 182
-        },
-        South: {
-          
-        },
-        West: {
-          position: 'absolute',
-          right: 70
-        }
-      }
-    )
     return (
-      <View style={styles.main}>
-        <Grid>
-        <Row>
-          <Button title="North" style={styles.North}/>
-        </Row>
-        <Row style={styles.middle}>
-          <Button title="West" style={styles.West}/>
-          <Button title="East" style={styles.East}/>
-        </Row>
-        </Grid>
-        <Button title="South" style={styles.South}/>
+      <View style={{ flexDirection: "column" }}>
+        <View
+          style={{
+            flexDirection: "column",
+            alignItems: "center"
+          }}
+        >
+          <Button onPress={this._next} title="North" />
+        </View>
+        <View
+          style={{
+            width: "100%",
+            flexDirection: "row",
+            justifyContent: "space-around",
+            alignItems: "center"
+          }}
+        >
+          <Button onPress={this._next} title="West" />
+          <Button onPress={this._next} title="East" />
+        </View>
+        <View
+          style={{
+            flexDirection: "column",
+            alignItems: "center"
+          }}
+        >
+          <Button onPress={this._next} title="South" />
+        </View>
       </View>
-    )
-    
+    );
   }
-  
 }
