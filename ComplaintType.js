@@ -13,7 +13,7 @@ export default class ComplaintType extends React.Component {
 
     return (
       <View>
-        {complaints.map(complaint => (<Button title={complaint}/>))}
+        {complaints.map(complaint => (<Button key={complaint} title={complaint}/>))}
       </View>
     )
   }
