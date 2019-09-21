@@ -1,11 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import Home from "./Home";
+import ComplaintType from "./ComplaintType"
 import ConfirmAddress from "./ConfirmAddress";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <ConfirmAddress />
+      <ComplaintType />
     </View>
   );
 }
