@@ -16,11 +16,9 @@ import marker from "./assets/marker.png";
 export default class ConfirmAddress extends React.Component {
   constructor(props) {
     super(props);
-    const location = (props.location &&
-      props.location.place.geometry.location) || {
-      lat: 40.70696,
-      lng: -73.973621
-    };
+    const { navigation } = this.props;
+    const location2 = navigation.getParam("image");
+    const location = location2.location;
     this.state = {
       region: {
         latitude: location.lat,
@@ -80,10 +78,11 @@ export default class ConfirmAddress extends React.Component {
         id={item.id}
         title={title}
         onPress={() => {
+          const { navigation } = this.props;
           this.props.navigation.navigate("ComplaintType", {
-            image: this.props.image,
-            address: this.props.address,
-            location: item
+            image: navigation.getParam("image"),
+            address: navigation.getParam("address"),
+            location: title
           });
         }}
         containerStyle={{
