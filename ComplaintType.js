@@ -32,6 +32,10 @@ export default class ComplaintType extends React.Component {
       treePit: {
         name: 'Tree Pit',
         uri: require('./assets/tree-pit.png')
+      },
+      chair: {
+        name: 'Furniture',
+        uri: require('./assets/chair.png')
       }
     }
 
@@ -48,7 +52,7 @@ export default class ComplaintType extends React.Component {
             backgroundColor: '#fbfbfb',
             marginTop: 8,
             padding: 8,
-            height: '15%'
+            height: '12%'
           }}>
             <TouchableHighlight 
               onPress={() => {
