@@ -1,22 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Home from "./Home";
-import ComplaintType from "./ComplaintType"
+import ComplaintType from "./ComplaintType";
 import ConfirmAddress from "./ConfirmAddress";
+import { AppContainer } from "./Navigation";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <ComplaintType />
-    </View>
-  );
+  return <AppContainer />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});
