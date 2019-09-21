@@ -4,15 +4,17 @@ import { createAppContainer } from "react-navigation";
 import PickImage from "./PickImage";
 import ConfirmAddress from "./ConfirmAddress";
 import ComplaintType from "./ComplaintType";
+import CompassSelect from "./CompassSelect";
 
 const RootStack = createStackNavigator(
   {
-    Home: PickImage,
+    CompassSelect: CompassSelect,
+    ComplaintType: ComplaintType,
     ConfirmAddress: ConfirmAddress,
-    ComplaintType: ComplaintType
+    Home: PickImage
   },
   {
-    initialRouteName: "Home"
+    initialRouteName: "CompassSelect"
   }
 );
 
