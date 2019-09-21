@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  KeyboardAvoidingView,
   Image,
   StyleSheet,
   Text,
@@ -7,8 +8,9 @@ import {
   FlatList,
   Platform
 } from "react-native";
-import { Icon } from "react-native-elements";
+import { Button, Icon } from "react-native-elements";
 import MapView, { Marker, Polygon } from "react-native-maps";
+import { reverseGeocode, finds } from "./Api";
 import marker from "./assets/marker.png";
 
 export default class ConfirmAddress extends React.Component {
@@ -28,6 +30,112 @@ export default class ConfirmAddress extends React.Component {
       }
     };
   }
+
+  fetchAddress() {
+    reverseGeocode(location)
+      .then(data => {
+        //console.log(data);
+        console.log("reverse geocoded");
+        const { results: pre } = data;
+        if (pre) {
+          const formattedAddress = {};
+          const results = [];
+          pre.forEach((x, index) => {
+            const { address_components: address } = x;
+            const premise = finds(address, "premise");
+            const building = finds(address, "street_number");
+            const street = finds(address, "route");
+            if (!premise && !building && !street) {
+              //alert("no dice", premise, building, street);
+            } else {
+              //alert("we good");
+              if (!formattedAddress[x.formatted_address]) {
+                formattedAddress[x.formatted_address] = x;
+                results.push(x);
+              }
+            }
+          });
+          this.setState({ results });
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+
+  _renderItem = ({ item }) => {
+    const { address_components: address } = item;
+    const premise = finds(address, "premise");
+    const building = finds(address, "street_number");
+    const street = finds(address, "route");
+    let title = "";
+    if (premise) {
+      title = [premise, street].filter(x => x).join(" ");
+    } else {
+      title = [building, street].join(" ");
+    }
+    return (
+      <Button
+        key={item.id}
+        id={item.id}
+        title={title}
+        onPress={() => {
+          this.props.onPress({
+            place: item
+          });
+        }}
+        containerStyle={{
+          padding: 5,
+          opacity: 0.75
+        }}
+        buttonStyle={{
+          backgroundColor: "#FFF",
+          padding: 10
+        }}
+        titleStyle={{
+          color: "black"
+        }}
+      />
+    );
+  };
+
+  onRegionChange = async region => {
+    this.setState(
+      {
+        region
+      },
+      () => {
+        clearTimeout(this.debounce);
+        this.debounce = setTimeout(() => {
+          const location = { lat: region.latitude, lng: region.longitude };
+          reverseGeocode(location).then(data => {
+            const { results: pre } = data;
+            if (pre) {
+              const formattedAddress = {};
+              const results = [];
+              pre.forEach((x, index) => {
+                const { address_components: address } = x;
+                const premise = finds(address, "premise");
+                const building = finds(address, "street_number");
+                const street = finds(address, "route");
+                if (!premise && !building && !street) {
+                  //alert("no dice", premise, building, street);
+                } else {
+                  //alert("we good");
+                  if (!formattedAddress[x.formatted_address]) {
+                    formattedAddress[x.formatted_address] = x;
+                    results.push(x);
+                  }
+                }
+              });
+              this.setState({ results });
+            }
+          });
+        }, 300);
+      }
+    );
+  };
+
   render() {
     const { region } = this.state;
     return (
@@ -61,32 +169,32 @@ export default class ConfirmAddress extends React.Component {
             </View>
           </>
         )}
-
-        <View style={styles.footer}>
-          {this.state.precinct && (
-            <Text
-              onPress={() => {
-                this.setState({ selectedPrecinct: this.state.precinct });
-              }}
-              style={{
-                padding: 10,
-                alignSelf: "center",
-                backgroundColor: "#000000",
-                borderRadius: 5,
-                color: "#FFF"
-              }}
-            >
-              {this.state.precinct.name}
-            </Text>
-          )}
-          <FlatList
-            keyExtractor={this._keyExtractor}
-            horizontal={true}
-            renderItem={this._renderItem}
-            data={this.state.results}
-          />
-        </View>
-        {this.selectedPrecinct}
+        <KeyboardAvoidingView>
+          <View style={styles.footer}>
+            {this.state.precinct && (
+              <Text
+                onPress={() => {
+                  this.setState({ selectedPrecinct: this.state.precinct });
+                }}
+                style={{
+                  padding: 10,
+                  alignSelf: "center",
+                  backgroundColor: "#000000",
+                  borderRadius: 5,
+                  color: "#FFF"
+                }}
+              >
+                {this.state.precinct.name}
+              </Text>
+            )}
+            <FlatList
+              keyExtractor={this._keyExtractor}
+              horizontal={true}
+              renderItem={this._renderItem}
+              data={this.state.results}
+            />
+          </View>
+        </KeyboardAvoidingView>
       </View>
     );
   }

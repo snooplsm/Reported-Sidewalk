@@ -1,3 +1,5 @@
+import { AsyncStorage } from "react-native";
+
 export const reverseGeocode = location => {
   console.log("reverse geocode", location);
   if (!location || !location.lat || !location.lng) {
@@ -22,4 +24,11 @@ export const reverseGeocode = location => {
         return data;
       });
   });
+};
+
+export const finds = (address, key) => {
+  return address
+    .filter(x => x.types.includes(key))
+    .map(x => x.short_name)
+    .shift();
 };
