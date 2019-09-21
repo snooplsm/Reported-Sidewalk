@@ -62,9 +62,17 @@ export default class PickImage extends React.Component {
             .then(places => {
               //console.log(places.results[0]);
               this.setState({ location: { place: places.results[0] } });
-              this.props.navigation.navigate("ConfirmAddress");
+              this.props.navigation.navigate("ConfirmAddress", {
+                image: image,
+                address: places[0],
+                takenAt: timeof
+              });
             })
-            .catch(e => console.log(e));
+            .catch(e => {
+              this.props.navigation.navigate("ConfirmAddress", {
+                image: image
+              });
+            });
         }
       }
 

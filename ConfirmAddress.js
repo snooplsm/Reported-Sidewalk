@@ -80,7 +80,11 @@ export default class ConfirmAddress extends React.Component {
         id={item.id}
         title={title}
         onPress={() => {
-          this.props.navigation.navigate("ComplaintType");
+          this.props.navigation.navigate("ComplaintType", {
+            image: this.props.image,
+            address: this.props.address,
+            location: item
+          });
         }}
         containerStyle={{
           padding: 5,
@@ -167,32 +171,30 @@ export default class ConfirmAddress extends React.Component {
             </View>
           </>
         )}
-        <KeyboardAvoidingView>
-          <View style={styles.footer}>
-            {this.state.precinct && (
-              <Text
-                onPress={() => {
-                  this.setState({ selectedPrecinct: this.state.precinct });
-                }}
-                style={{
-                  padding: 10,
-                  alignSelf: "center",
-                  backgroundColor: "#000000",
-                  borderRadius: 5,
-                  color: "#FFF"
-                }}
-              >
-                {this.state.precinct.name}
-              </Text>
-            )}
-            <FlatList
-              keyExtractor={this._keyExtractor}
-              horizontal={true}
-              renderItem={this._renderItem}
-              data={this.state.results}
-            />
-          </View>
-        </KeyboardAvoidingView>
+        <View style={styles.footer}>
+          {this.state.precinct && (
+            <Text
+              onPress={() => {
+                this.setState({ selectedPrecinct: this.state.precinct });
+              }}
+              style={{
+                padding: 10,
+                alignSelf: "center",
+                backgroundColor: "#000000",
+                borderRadius: 5,
+                color: "#FFF"
+              }}
+            >
+              {this.state.precinct.name}
+            </Text>
+          )}
+          <FlatList
+            keyExtractor={this._keyExtractor}
+            horizontal={true}
+            renderItem={this._renderItem}
+            data={this.state.results}
+          />
+        </View>
       </View>
     );
   }

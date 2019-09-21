@@ -14,7 +14,7 @@ const RootStack = createStackNavigator(
     Home: PickImage
   },
   {
-    initialRouteName: "CompassSelect"
+    initialRouteName: "Home"
   }
 );
 
