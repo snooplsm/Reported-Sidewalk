@@ -1,8 +1,16 @@
-import { Text, View } from "react-native";
-import { Button } from "react-native-elements";
 import React from "react";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Platform
+} from "react-native";
+import MapView, { Marker, Polygon } from "react-native-maps";
+import marker from "./assets/marker.png";
 
-export default class Home extends React.Component {
+export default class MapSelect extends React.Component {
   render() {
     return (
       <View
@@ -141,4 +149,3 @@ const styles = StyleSheet.create({
     margin: 20
   }
 });
-
