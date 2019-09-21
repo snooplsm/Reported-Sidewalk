@@ -1,4 +1,4 @@
-import { Text, View, Image, StyleSheet, TouchableHighlight } from "react-native";
+import { Text, View, Image, TouchableHighlight } from "react-native";
 import { Button } from "react-native-elements";
 import Img from "react-image";
 import React, { Component } from "react";
@@ -36,19 +36,40 @@ export default class ComplaintType extends React.Component {
     }
 
     return (
-      <View>
+      <View style={{
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: "stretch",
+        justifyContent: "center",
+        width: '95%'
+      }}>
         {Object.keys(complaintTypes).map(key => (
-          <View key={complaintTypes[key].name} style={styles.container}>
+          <View key={complaintTypes[key].name} style={{
+            backgroundColor: '#fbfbfb',
+            marginTop: 8,
+            padding: 8,
+            height: '15%'
+          }}>
             <TouchableHighlight 
               onPress={() => {
                 alert('Complaint selected: ' + complaintTypes[key].name);
               }}>
               <View>
                 <Image 
-                style={{width: 250, height: 100}} 
-                source={complaintTypes[key].uri} />
+                  style={{
+                    alignSelf: 'flex-start',
+                    height: '80%', 
+                    width: '100%'
+                  }}
+                  resizeMode="cover"
+                  source={complaintTypes[key].uri} />
                 <Text
-                  style={{marginTop: 4}}>
+                  style={{
+                    marginTop: 4,
+                    alignSelf: 'flex-end',
+                    height: '20%', 
+                    width: '100%'
+                  }}>
                   {complaintTypes[key].name}
                 </Text>
               </View>
@@ -59,11 +80,3 @@ export default class ComplaintType extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fbfbfb',
-    marginTop: 8,
-    padding: 8
-  },
-}); 
