@@ -1,4 +1,3 @@
-import { Text, View } from "react-native";
 import React from "react";
 import {
   Image,
@@ -8,11 +7,29 @@ import {
   FlatList,
   Platform
 } from "react-native";
+import { Icon } from "react-native-elements";
 import MapView, { Marker, Polygon } from "react-native-maps";
 import marker from "./assets/marker.png";
 
-export default class Home extends React.Component {
+export default class ConfirmAddress extends React.Component {
+  constructor(props) {
+    super(props);
+    const location = (props.location &&
+      props.location.place.geometry.location) || {
+      lat: 40.70696,
+      lng: -73.973621
+    };
+    this.state = {
+      region: {
+        latitude: location.lat,
+        longitude: location.lng,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      }
+    };
+  }
   render() {
+    const { region } = this.state;
     return (
       <View
         style={
@@ -27,28 +44,7 @@ export default class Home extends React.Component {
           initialRegion={region}
           onRegionChangeComplete={this.onRegionChange}
           style={{ flex: 1 }}
-        >
-          {this._precincts.map(precinct => {
-            return precinct.polygons.map(polygon => {
-              return (
-                <Polygon
-                  tappable
-                  onPress={() => {
-                    this.setState({ selectedPrecinct: precinct });
-                  }}
-                  coordinates={polygon}
-                />
-              );
-            });
-          })}
-          {this.state.big && (
-            <Polygon
-              coordinates={this.state.big}
-              strokeWidth={5}
-              strokeColor={"red"}
-            />
-          )}
-        </MapView>
+        />
         {true && (
           <>
             <View style={{ right: 0, position: "absolute" }}>
@@ -150,4 +146,3 @@ const styles = StyleSheet.create({
     margin: 20
   }
 });
-
