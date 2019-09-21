@@ -80,9 +80,7 @@ export default class ConfirmAddress extends React.Component {
         id={item.id}
         title={title}
         onPress={() => {
-          this.props.onPress({
-            place: item
-          });
+          this.props.navigation.navigate("ComplaintType");
         }}
         containerStyle={{
           padding: 5,

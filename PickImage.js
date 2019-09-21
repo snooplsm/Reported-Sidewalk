@@ -1,10 +1,12 @@
 import { Text, View } from "react-native";
 import React from "react";
+import { Button } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
+import { reverseGeocode } from "./Api";
 import moment from "moment";
 
-export default class Home extends React.Component {
+export default class PickImage extends React.Component {
   constructor(params) {
     super(params);
     this.state = {};
@@ -60,6 +62,7 @@ export default class Home extends React.Component {
             .then(places => {
               //console.log(places.results[0]);
               this.setState({ location: { place: places.results[0] } });
+              this.props.navigation.navigate("ConfirmAddress");
             })
             .catch(e => console.log(e));
         }
@@ -70,8 +73,7 @@ export default class Home extends React.Component {
       if (timeofreport) {
         var datetime = moment(timeofreport, "yyyy:MM:DD HH:mm:ss").toDate();
         this.setState({
-          timeofreport: datetime,
-          timeofreportstr: this.timeofreport(datetime)
+          timeofreport: datetime
         });
       }
 
