@@ -16,11 +16,9 @@ import marker from "./assets/marker.png";
 export default class ConfirmAddress extends React.Component {
   constructor(props) {
     super(props);
-    const location = (props.location &&
-      props.location.place.geometry.location) || {
-      lat: 40.70696,
-      lng: -73.973621
-    };
+    const { navigation } = this.props;
+    const location2 = navigation.getParam("image");
+    const location = location2.location;
     this.state = {
       region: {
         latitude: location.lat,
@@ -80,7 +78,12 @@ export default class ConfirmAddress extends React.Component {
         id={item.id}
         title={title}
         onPress={() => {
-          this.props.navigation.navigate("ComplaintType");
+          const { navigation } = this.props;
+          this.props.navigation.navigate("ComplaintType", {
+            image: navigation.getParam("image"),
+            address: navigation.getParam("address"),
+            location: title
+          });
         }}
         containerStyle={{
           padding: 5,
@@ -167,32 +170,30 @@ export default class ConfirmAddress extends React.Component {
             </View>
           </>
         )}
-        <KeyboardAvoidingView>
-          <View style={styles.footer}>
-            {this.state.precinct && (
-              <Text
-                onPress={() => {
-                  this.setState({ selectedPrecinct: this.state.precinct });
-                }}
-                style={{
-                  padding: 10,
-                  alignSelf: "center",
-                  backgroundColor: "#000000",
-                  borderRadius: 5,
-                  color: "#FFF"
-                }}
-              >
-                {this.state.precinct.name}
-              </Text>
-            )}
-            <FlatList
-              keyExtractor={this._keyExtractor}
-              horizontal={true}
-              renderItem={this._renderItem}
-              data={this.state.results}
-            />
-          </View>
-        </KeyboardAvoidingView>
+        <View style={styles.footer}>
+          {this.state.precinct && (
+            <Text
+              onPress={() => {
+                this.setState({ selectedPrecinct: this.state.precinct });
+              }}
+              style={{
+                padding: 10,
+                alignSelf: "center",
+                backgroundColor: "#000000",
+                borderRadius: 5,
+                color: "#FFF"
+              }}
+            >
+              {this.state.precinct.name}
+            </Text>
+          )}
+          <FlatList
+            keyExtractor={this._keyExtractor}
+            horizontal={true}
+            renderItem={this._renderItem}
+            data={this.state.results}
+          />
+        </View>
       </View>
     );
   }

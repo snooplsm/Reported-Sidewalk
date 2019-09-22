@@ -11,7 +11,6 @@ export default class PickImage extends React.Component {
     super(params);
     this.state = {};
   }
-
   _pickImage = async () => {
     const permission = await Permissions.getAsync(Permissions.CAMERA_ROLL);
     // const permission2 = await Permissions.getAsync(
@@ -57,15 +56,21 @@ export default class PickImage extends React.Component {
           location: { lat: lats, lng: lngs }
         });
 
-        if (!this.state.location) {
-          reverseGeocode(image.location)
-            .then(places => {
-              //console.log(places.results[0]);
-              this.setState({ location: { place: places.results[0] } });
-              this.props.navigation.navigate("ConfirmAddress");
-            })
-            .catch(e => console.log(e));
-        }
+        reverseGeocode(image.location)
+          .then(places => {
+            //console.log(places.results[0]);
+            this.setState({ location: { place: places.results[0] } });
+            this.props.navigation.navigate("ConfirmAddress", {
+              image: image,
+              address: places[0],
+              takenAt: timeof
+            });
+          })
+          .catch(e => {
+            this.props.navigation.navigate("ConfirmAddress", {
+              image: image
+            });
+          });
       }
 
       const { timeofreport } = image;
@@ -92,57 +97,70 @@ export default class PickImage extends React.Component {
   };
 
   render() {
-    const reportImageSource = require('./assets/report.png')
+    const reportImageSource = require("./assets/report.png");
     return (
-      <View style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'top',
-        backgroundColor: '#fdfdfd'
-      }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          backgroundColor: "#fdfdfd"
+        }}
+      >
         <Image
           style={{
             marginTop: 24,
             height: 128,
             width: 128
           }}
-          source={reportImageSource} />
-        <Text style={{
-          fontSize: 24,
-          marginBottom: 48,
-          marginTop: 24,
-          marginRight: 24,
-          marginLeft: 24,
-          fontWeight: 'bold',
-          textAlign: 'center'
-        }}>Report Sidewalk Obstructions</Text>
-        <View style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}>
-          <Text style={{
-            fontSize: 16,
-            marginBottom: 16
-          }}>Step 1: Add Photo</Text>
+          source={reportImageSource}
+        />
+        <Text
+          style={{
+            fontSize: 24,
+            marginBottom: 48,
+            marginTop: 24,
+            marginRight: 24,
+            marginLeft: 24,
+            textAlign: "center"
+          }}
+        >
+          Report Sidewalk Obstructions
+        </Text>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 16,
+              marginBottom: 16
+            }}
+          >
+            Step 1: Add Photo
+          </Text>
           <TouchableHighlight
             style={{
-              paddingRight:40,
-              paddingLeft:40,
-              marginTop:10,
-              paddingTop:20,
-              paddingBottom:20,
-              backgroundColor:'#ff2222',
-              borderRadius:30,
+              paddingRight: 40,
+              paddingLeft: 40,
+              marginTop: 10,
+              paddingTop: 20,
+              paddingBottom: 20,
+              backgroundColor: "#ff2222",
+              borderRadius: 30,
               borderWidth: 1,
-              borderColor: '#fff'
+              borderColor: "#fff"
             }}
             onPress={this._pickImage}
-            underlayColor='#fff'>
-            <Text style={{fontWeight:800, color:'#fff',textAlign:'center'}}>Submit Sidewalk Obstruction</Text>
+            underlayColor="#fff"
+          >
+            <Text style={{ color: "#fff", textAlign: "center" }}>
+              Submit Sidewalk Obstruction
+            </Text>
           </TouchableHighlight>
         </View>
-        
       </View>
     );
   }
